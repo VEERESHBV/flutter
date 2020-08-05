@@ -1,0 +1,110 @@
+import 'package:audioplayers/audio_cache.dart';
+import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+AudioPlayer newPlayer = new AudioPlayer();
+AudioCache audio = new AudioCache(fixedPlayer: newPlayer);
+bool play = false;
+bool stop = true;
+
+playAudio() {
+  if (play == false || stop == true) {
+    audio.play("audio/badguyaudio.mpeg"); //My Favourite Audio.mpeg
+    play = true;
+    stop = false;
+  }
+}
+pauseAudio() {
+  if (play == true) {
+    newPlayer.pause();
+    play = false;
+  }
+}
+stopAudio() {
+  if (play == true && stop == false) {
+    newPlayer.stop();
+    play = false;
+    stop = true;
+  }
+}
+
+
+
+myapp(){
+ 
+  var urlmusicimage ="https://www.wallsnapy.com/img_gallery/heart-images-hd-wallpapers-for-mobile-1913942.png";
+  var mybody=Container(                                                                             //1st container
+    //alignment: Alignment.bottomCenter,
+    width: double.infinity,
+    height: double.infinity,
+    //color: Colors.yellow,
+    margin: EdgeInsets.all(10),
+    decoration: BoxDecoration(                                                                     //decoration of 1st container
+       image: DecorationImage(
+         image:NetworkImage( urlmusicimage ),                                                   //image url
+         fit: BoxFit.cover,
+       ),
+       border:Border.all(width:5,color: Colors.redAccent),
+       borderRadius:BorderRadius.circular(20),),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center, 
+      crossAxisAlignment: CrossAxisAlignment.center,                                                                                //stack
+      children: <Widget>[
+        
+       /* Container(
+          alignment: Alignment.center,                                                                                //2nd container
+          width:500,
+          height:100,
+          margin: EdgeInsets.all(50),
+          //color :Colors.amber,
+          decoration: BoxDecoration(                                                             //decoration of 2nd container
+             border:Border.all(color: Colors.red,width: 6),
+             borderRadius: BorderRadius.circular(50),
+             ),
+          /*child: RaisedButton(                                                                //raised button
+            onPressed: () {
+              print("Hi"); 
+              var a =AudioCache();
+              a.play("audio/badguyaudio.mpeg");
+            },
+            ),*/
+        ),*/
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              alignment: AlignmentDirectional.bottomCenter,
+              color: Colors.red,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(onPressed: playAudio, child:  Icon(Icons.play_arrow),color: Colors.amber,),
+                  FlatButton(onPressed: pauseAudio, child:  Icon(Icons.pause),color: Colors.amber,),
+                  FlatButton(onPressed: stopAudio, child:  Icon(Icons.stop),color: Colors.amber,)
+                ],
+              ),
+            ),
+          ],
+        )
+        
+
+      ],
+    ),
+  );
+  // AppBar part 
+  var icon1=IconButton(icon: Icon(Icons.music_video,color: Colors.white,), onPressed: null);
+  var icon2= IconButton(icon: Icon(Icons.multiline_chart,color:Colors.white), onPressed: null);
+
+  var myhome =Scaffold(
+    appBar: AppBar(title:Text("AV Player",style: TextStyle(color: Colors.white,fontStyle: FontStyle.normal),),
+            centerTitle: true,
+            backgroundColor: Colors.redAccent.shade700,
+            leading: Icon(Icons.music_note),
+            actions: <Widget>[icon1,icon2],
+    ),
+    body: mybody,
+  );
+
+  return MaterialApp(home:myhome,debugShowCheckedModeBanner: false,);
+}
